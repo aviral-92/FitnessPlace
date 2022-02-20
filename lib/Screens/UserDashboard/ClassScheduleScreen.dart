@@ -72,8 +72,8 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                AssetImage('assets/avatar/img.png'),
+                            backgroundImage: AssetImage(
+                                'assets/img/F0345748-C3FC-4BDD-87E2-E1266AFBE06B_4_5005_c.jpeg'),
                             /*NetworkImage(
                                 '${classScheduleList[index].profile.picturePath}'),*/
                           ),
