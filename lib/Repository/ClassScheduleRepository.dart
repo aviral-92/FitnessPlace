@@ -72,10 +72,10 @@ class ClassScheduleRepository {
   }
 
   Future<Object> findByDateAndClassBooked(
-      String status, String date, BuildContext context) async {
+      String status, String date, String time, BuildContext context) async {
     String username = await _helper.getTokenOrUsername('username');
     final response = await _helper.get(
-        '${FitnessConstant.BASE_PATH}/class_schedule/findByDateAndClassBooked?username=$username&status=$status&date=$date',
+        '${FitnessConstant.BASE_PATH}/class_schedule/findByDateAndClassBooked?username=$username&status=$status&date=$date&time=$time',
         context);
     //print(response);
     if (response == null) return null;

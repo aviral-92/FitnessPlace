@@ -49,9 +49,12 @@ class ClassScheduleService {
   Future<Map<String, List<ClassSchedule>>> findByDateAndClassBooked(
       BuildContext context) async {
     DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
+    DateFormat timeformat = new DateFormat('hh:mm a');
+    String time = timeformat.format(DateTime.now());
+    print('formattedTime = $time');
     DateTime date = dateFormat.parse(DateTime.now().toString());
     final response = await classScheduleRepository.findByDateAndClassBooked(
-        'BOOKED', date.toString(), context);
+        'BOOKED', date.toString(), time, context);
     if (response != null) {
       ClassScheduleList classScheduleList = ClassScheduleList.fromMap(response);
       return classScheduleList.classSchedulelMap;

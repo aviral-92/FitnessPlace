@@ -1,4 +1,4 @@
-import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
+//import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
 import 'package:FitnessPlace/Constant/FitnessConstant.dart';
 import 'package:FitnessPlace/Modal/ClassSchedule.dart';
 import 'package:FitnessPlace/Service/ClassScheduleService.dart';
@@ -17,15 +17,11 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
   ClassScheduleService classScheduleService = new ClassScheduleService();
 
   Future<void> futureState() async {
-    //print('-------FUTURE CALLED------');
-    //print('DONE');
     return classScheduleService.findByDateAndClassBooked(context).then((value) {
       return value;
     }).catchError((onError) {
-      //ConstantWidgets.showMaterialDialog(context, 'txt!!', 'title!! $onError');
       return Future.error(onError.toString());
     });
-    //return classSchedulelMap;
   }
 
   Widget _listItem(List<ClassSchedule> classScheduleList) {
@@ -70,19 +66,31 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CircleAvatar(
+                          /*CircleAvatar(
                             radius: 30,
                             backgroundImage: AssetImage(
                                 'assets/img/F0345748-C3FC-4BDD-87E2-E1266AFBE06B_4_5005_c.jpeg'),
                             /*NetworkImage(
                                 '${classScheduleList[index].profile.picturePath}'),*/
-                          ),
+                          ),*/
                           Padding(
                             padding: const EdgeInsets.only(
                               left: 12,
                             ),
                             child: Text(
                               '${classScheduleList[index].profile.name} \n${classScheduleList[index].duration}',
+                              style: GoogleFonts.pTSansNarrow(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 12,
+                            ),
+                            child: Text(
+                              '${classScheduleList[index].workoutType}',
                               style: GoogleFonts.pTSansNarrow(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,

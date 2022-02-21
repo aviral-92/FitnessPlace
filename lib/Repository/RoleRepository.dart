@@ -25,4 +25,13 @@ class RoleRepository {
     if (response == null) return null;
     return response;
   }
+
+  Future<Object> getRoleFromUsername(
+      BuildContext context, String username) async {
+    final response = await _helper.get(
+        '${FitnessConstant.BASE_PATH}/role/getRoleFromUsername?username=$username',
+        context);
+    if (response == null) return null;
+    return response;
+  }
 }

@@ -1,16 +1,8 @@
 import 'dart:io';
-
-import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
 import 'package:FitnessPlace/Constant/FitnessConstant.dart';
 import 'package:FitnessPlace/Constant/SizeConfig.dart';
-import 'package:FitnessPlace/Modal/JwtResponse.dart';
-import 'package:FitnessPlace/Modal/User.dart';
-import 'package:FitnessPlace/Repository/LoginRepository.dart';
-import 'package:FitnessPlace/Screens/AdminDashboard/AdminHome.dart';
 import 'package:FitnessPlace/Screens/SignupPage.dart';
-import 'package:FitnessPlace/Screens/TrainerDashboard/TrainerScreen.dart';
-import 'package:FitnessPlace/Screens/UserDashboard/UserHome.dart';
-import 'package:FitnessPlace/Service/NetworkingService.dart';
+import 'package:FitnessPlace/Service/LoginService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -153,67 +145,15 @@ class _LoginPageState extends State<LoginPage> {
                       child: FlatButton(
                         color: Colors.deepPurple[700],
                         onPressed: () {
-                          NetworkingService ns = new NetworkingService();
-                          ns.isConnected().then((value) {
-                            if (!value) {
-                              return ConstantWidgets.showMaterialDialog(
-                                  context,
-                                  'Please check Network Connection',
-                                  'Network Error');
-                            }
-                          });
-                          User user = new User();
-                          if (usernameController.text.isEmpty ||
-                              passwordController.text.isEmpty) {
-                            return ConstantWidgets.showMaterialDialog(
-                                context,
-                                'Username/Password is empty',
-                                'Field\'s Empty ');
-                          }
-                          user.username = usernameController.text;
-                          user.password = passwordController.text;
-                          LoginRepository login = new LoginRepository();
-                          Future<JwtResponse> jwtResponseFuture =
-                              login.signin(user, context);
-                          jwtResponseFuture.then((value) {
-                            if (value != null && value.roles.length > 0) {
-                              String role = value.roles[0];
-                              print(role);
-                              if (role == 'ROLE_USER') {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) {
-                                  return UserHome();
-                                }));
-                              } else if (role == 'ROLE_TRAINER') {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) {
-                                  return TrainerScreen();
-                                }));
-                              } else if (role == 'ROLE_ADMIN') {
-                                //ADMIN AdminHome
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (_) {
-                                  return AdminHome();
-                                }));
-                              }
-                              setState(() {
-                                isChange = false;
-                              });
-                            }
-                          });
-                          jwtResponseFuture.catchError((onError) {
-                            print('????======>>>>>$onError');
-                            setState(() {
-                              isChange = false;
-                            });
-                            return ConstantWidgets.showMaterialDialog(
-                              context,
-                              'Credentials or internet connections error!!',
-                              'Try Again!',
-                            );
-                          }).timeout(Duration(seconds: 6));
+                          LoginService loginService = new LoginService(
+                            context: context,
+                            usernameController: usernameController,
+                            passwordController: passwordController,
+                          );
+                          bool stateBool = loginService.login();
+                          print('stateBool=$stateBool');
                           setState(() {
-                            isChange = true;
+                            isChange = stateBool;
                           });
                         },
                         child: getTextWidget(isChange),

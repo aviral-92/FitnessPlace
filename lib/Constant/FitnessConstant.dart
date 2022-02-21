@@ -9,7 +9,7 @@ class FitnessConstant {
   static DateFormat dateFormat = new DateFormat('MMM-dd-yyyy');
   static DateFormat df = new DateFormat('yyyy-MM-dd');
   static DateFormat dfz = new DateFormat('hh:mm a');
-  //static const String BASE_PATH = 'http://localhost:9092';
+  // static const String BASE_PATH = 'http://localhost:9092';
   static const String BASE_PATH = 'http://198.12.225.231:9092';
 
   static TextStyle ryeGoogleFont() {
