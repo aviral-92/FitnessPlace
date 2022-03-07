@@ -12,6 +12,7 @@ class ClassSchedule {
   int capacity;
   int slotOccupied;
   bool status;
+  bool scheduleStatus;
   String classStatus;
   ClassSchedule({
     this.id,
@@ -24,6 +25,7 @@ class ClassSchedule {
     this.slotOccupied,
     this.status,
     this.classStatus,
+    this.scheduleStatus,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,11 +35,12 @@ class ClassSchedule {
       'duration': duration,
       'time': time,
       'workoutType': workoutType,
-      'profile': profile.toMap(),
+      'profile': profile != null ? profile.toMap() : null,
       'capacity': capacity,
       'slotOccupied': slotOccupied,
       'status': status,
       'classStatus': classStatus,
+      'scheduleStatus': scheduleStatus,
     };
   }
 
@@ -53,6 +56,7 @@ class ClassSchedule {
       slotOccupied: map['slotOccupied'],
       status: map['status'],
       classStatus: map['classStatus'],
+      scheduleStatus: map['scheduleStatus'],
     );
   }
 

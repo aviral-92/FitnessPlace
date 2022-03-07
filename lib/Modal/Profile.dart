@@ -7,6 +7,8 @@ class Profile {
   String dob;
   String speciality;
   String gender;
+  String height;
+  String weight;
   String picturePath;
   bool status;
   Profile({
@@ -16,6 +18,8 @@ class Profile {
     this.dob,
     this.speciality,
     this.gender,
+    this.height,
+    this.weight,
     this.picturePath,
     this.status,
   });
@@ -28,6 +32,8 @@ class Profile {
       'dob': dob,
       'speciality': speciality,
       'gender': gender,
+      'height': height,
+      'weight': weight,
       'picturePath': picturePath,
       'status': status,
     };
@@ -42,6 +48,8 @@ class Profile {
       dob: map['dob'],
       speciality: map['speciality'],
       gender: map['gender'],
+      height: map['height'],
+      weight: map['weight'],
       picturePath: map['picturePath'],
       status: map['status'],
     );
@@ -54,7 +62,7 @@ class Profile {
 
   @override
   String toString() {
-    return 'Profile(id: $id, name: $name, mobile: $mobile, dob: $dob, speciality: $speciality, gender: $gender, picturePath: $picturePath, status: $status)';
+    return 'Profile(id: $id, name: $name, mobile: $mobile, dob: $dob, speciality: $speciality, gender: $gender, height: $height, weight: $weight, picturePath: $picturePath, status: $status)';
   }
 
   @override

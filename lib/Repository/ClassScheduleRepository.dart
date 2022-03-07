@@ -77,7 +77,6 @@ class ClassScheduleRepository {
     final response = await _helper.get(
         '${FitnessConstant.BASE_PATH}/class_schedule/findByDateAndClassBooked?username=$username&status=$status&date=$date&time=$time',
         context);
-    //print(response);
     if (response == null) return null;
     return response;
   }
@@ -107,6 +106,28 @@ class ClassScheduleRepository {
     print(response);
     if (response == null) return null;
     return response;
+  }
+
+  Future<ClassSchedule> updateClassSchedule(
+      BuildContext context, ClassSchedule classSchedule) async {
+    print(classSchedule.toString());
+    final response = await _helper.put(
+        '${FitnessConstant.BASE_PATH}/class_schedule/',
+        json.encode(classSchedule.toMap()),
+        true,
+        context);
+    print(response);
+    if (response == null) return null;
+    return ClassSchedule.fromMap(response);
+  }
+
+  Future<ClassSchedule> deleteSchedule(BuildContext context, int id) async {
+    final response = await _helper.get(
+        '${FitnessConstant.BASE_PATH}/class_schedule/deleteSchedule?id=$id',
+        context);
+    print(response);
+    if (response == null) return null;
+    return ClassSchedule.fromMap(response);
   }
 
   void logout(BuildContext context) {

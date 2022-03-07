@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:FitnessPlace/Screens/LandingPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,12 +13,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //checkLoggedin();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: LandingPage(),
-      ),
-    );
+    return Platform.isIOS
+        ? CupertinoApp(
+            debugShowCheckedModeBanner: false,
+            home: CupertinoPageScaffold(
+              resizeToAvoidBottomInset: false,
+              child: LandingPage(),
+            ),
+            localizationsDelegates: [
+              DefaultMaterialLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+            ],
+          )
+        : MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: LandingPage(),
+            ),
+          );
   }
 }

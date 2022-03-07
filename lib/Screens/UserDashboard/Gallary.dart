@@ -1,4 +1,11 @@
 //import 'package:FitnessPlace/Service/GallaryService.dart';
+import 'dart:io';
+
+import 'package:FitnessPlace/Constant/FitnessConstant.dart';
+import 'package:FitnessPlace/CustomWidget/CustomNavigationBar.dart';
+import 'package:FitnessPlace/Networking/ApiBaseHelper.dart';
+import 'package:FitnessPlace/Repository/ClassScheduleRepository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Gallary extends StatefulWidget {
@@ -9,6 +16,36 @@ class Gallary extends StatefulWidget {
 class _GallaryState extends State<Gallary> {
   @override
   Widget build(BuildContext context) {
+    CustomNavigationBar _customNavigationBar = new CustomNavigationBar(
+      bgColor: FitnessConstant.appBarColor,
+      isBackButtonReq: false,
+      isIconRequired: true,
+      txt: 'GALLARY',
+      txtColor: Colors.white,
+      w: GestureDetector(
+        child: Icon(Icons.add_to_home_screen),
+        onTap: () {
+          if (Platform.isAndroid) {
+            ClassScheduleRepository classScheduleRepository =
+                new ClassScheduleRepository();
+            classScheduleRepository.logout(context);
+          } else {
+            ApiBaseHelper _api = new ApiBaseHelper();
+            _api.flush();
+            Navigator.of(context, rootNavigator: true).pop();
+          }
+        },
+      ),
+    );
+    return Platform.isAndroid
+        ? pageBody()
+        : CupertinoPageScaffold(
+            navigationBar: _customNavigationBar.getCupertinoNavigationBar(),
+            child: pageBody(),
+          );
+  }
+
+  Widget pageBody() {
     List<String> list = List();
     list.add('assets/img/IMG_7817.JPG');
     list.add('assets/img/7EBC215E-30C2-49BE-B5E4-F46826F959DE.jpeg');

@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
+import 'package:FitnessPlace/Constant/FitnessConstant.dart';
+import 'package:FitnessPlace/CustomWidget/CustomNavigationBar.dart';
+import 'package:FitnessPlace/CustomWidget/CustomTextField.dart';
 import 'package:FitnessPlace/Modal/Profile.dart';
 import 'package:FitnessPlace/Modal/User.dart';
+import 'package:FitnessPlace/Networking/ApiBaseHelper.dart';
+import 'package:FitnessPlace/Repository/ClassScheduleRepository.dart';
 import 'package:FitnessPlace/Repository/ProfileRepository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TrainersProfile extends StatefulWidget {
@@ -15,7 +23,6 @@ class _TrainersProfileState extends State<TrainersProfile> {
   TextEditingController mobileController = new TextEditingController();
   TextEditingController dobController = new TextEditingController();
   TextEditingController specialityController = new TextEditingController();
-  //String picturePath = '';
 
   @override
   void initState() {
@@ -28,26 +35,43 @@ class _TrainersProfileState extends State<TrainersProfile> {
       dobController.text = value.dob;
       specialityController.text = value.speciality;
       genderController.text = value.gender;
-      /*setState(() {
-        picturePath = value.picturePath;
-      });*/
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final CustomNavigationBar customNavigationBar = new CustomNavigationBar(
+        bgColor: FitnessConstant.appBarColor,
+        isBackButtonReq: false,
+        isIconRequired: true,
+        txt: 'Profile',
+        txtColor: Colors.white,
+        w: GestureDetector(
+          child: Icon(Icons.add_to_home_screen),
+          onTap: () {
+            if (Platform.isAndroid) {
+              ClassScheduleRepository classScheduleRepository =
+                  new ClassScheduleRepository();
+              classScheduleRepository.logout(context);
+            } else {
+              ApiBaseHelper _api = new ApiBaseHelper();
+              _api.flush();
+              Navigator.of(context, rootNavigator: true).pop();
+            }
+            /**/
+          },
+        ));
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            navigationBar: customNavigationBar.getCupertinoNavigationBar(),
+            child: getPgaeBody())
+        : getPgaeBody();
+  }
+
+  Widget getPgaeBody() {
     return SingleChildScrollView(
       child: Column(
         children: [
-          /*Center(
-            child: picturePath.isNotEmpty
-                ? CircleAvatar(
-                    radius: 100,
-                    backgroundImage: NetworkImage(picturePath),
-                    //child: Icon(Icons.video_call),
-                  )
-                : CircularProgressIndicator(),
-          ),*/
           getContainer('Name', nameController),
           getContainer('Gender', genderController),
           getContainer('Mobile', mobileController),
@@ -95,7 +119,14 @@ class _TrainersProfileState extends State<TrainersProfile> {
       ),
       child: Container(
         width: double.infinity,
-        child: TextField(
+        child: CustomTextField(
+          hintTxt: txt,
+          controller: controller,
+          obscure: false,
+          mode: OverlayVisibilityMode.editing,
+        ),
+
+        /*TextField(
           style: TextStyle(
             fontSize: 20,
           ),
@@ -110,7 +141,7 @@ class _TrainersProfileState extends State<TrainersProfile> {
               hintText: txt,
               labelText: txt),
           controller: controller,
-        ),
+        ),*/
       ),
     );
   }

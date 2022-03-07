@@ -114,7 +114,7 @@ class ApiBaseHelper {
         PageRouteBuilder(pageBuilder: (BuildContext context,
             Animation animation, Animation secondaryAnimation) {
           flush();
-          return LoginPage();
+          return new LoginPage();
         }, transitionsBuilder: (BuildContext context,
             Animation<double> animation,
             Animation<double> secondaryAnimation,

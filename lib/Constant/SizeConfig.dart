@@ -6,12 +6,15 @@ class SizeConfig {
   static double screenHeight;
   static double blockSizeHorizontal;
   static double blockSizeVertical;
+  static double heightMultiplier;
+  static double widthMultiplier;
 
   static double _safeAreaHorizontal;
   static double _safeAreaVertical;
   static double safeBlockHorizontal;
   static double safeBlockVertical;
   static double scaleFactor;
+  static double textMultiplier;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
@@ -20,6 +23,10 @@ class SizeConfig {
     blockSizeHorizontal = screenWidth / 100;
     blockSizeVertical = screenHeight / 100;
 
+    heightMultiplier = blockSizeVertical;
+    widthMultiplier = blockSizeHorizontal;
+
+    textMultiplier = blockSizeVertical;
     _safeAreaHorizontal =
         _mediaQueryData.padding.left + _mediaQueryData.padding.right;
     _safeAreaVertical =

@@ -1,7 +1,10 @@
-//import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
+import 'dart:io';
+
 import 'package:FitnessPlace/Constant/FitnessConstant.dart';
+import 'package:FitnessPlace/CustomWidget/CustomNavigationBar.dart';
 import 'package:FitnessPlace/Modal/ClassSchedule.dart';
 import 'package:FitnessPlace/Service/ClassScheduleService.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -167,8 +170,25 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
     return null;
   }
 
+  CustomNavigationBar _customNavigationBar = new CustomNavigationBar(
+    bgColor: FitnessConstant.appBarColor,
+    isBackButtonReq: false,
+    isIconRequired: false,
+    txt: 'HOME',
+    txtColor: Colors.white,
+  );
+
   @override
   Widget build(BuildContext context) {
+    return Platform.isAndroid
+        ? pageBody()
+        : CupertinoPageScaffold(
+            navigationBar: _customNavigationBar.getCupertinoNavigationBar(),
+            child: pageBody(),
+          );
+  }
+
+  Widget pageBody() {
     return SafeArea(
       //top: false,
       left: false,
@@ -178,10 +198,19 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return CircularProgressIndicator();
+              return Center(
+                child: Platform.isAndroid
+                    ? CircularProgressIndicator()
+                    : CupertinoActivityIndicator(
+                        radius: 50,
+                        animating: true,
+                      ),
+              );
             case ConnectionState.done:
               if (snapshot.hasData && snapshot.data != null) {
                 classSchedulelMap = snapshot.data;
+                print(
+                    'classSchedulelMap length --> ${classSchedulelMap.length}');
                 return Container(
                   child: ListView.builder(
                       physics: ScrollPhysics(),

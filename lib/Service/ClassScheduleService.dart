@@ -24,6 +24,20 @@ class ClassScheduleService {
     return null;
   }
 
+  Future<Map<String, List<ClassSchedule>>> findByGivenDate(
+      BuildContext context, String date) async {
+    DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
+    print('---->$date');
+    DateTime parseDate = dateFormat.parse(date);
+    final response =
+        await classScheduleRepository.findByDate(parseDate.toString(), context);
+    if (response != null) {
+      ClassScheduleList classScheduleList = ClassScheduleList.fromMap(response);
+      return classScheduleList.classSchedulelMap;
+    }
+    return null;
+  }
+
   Future<void> bookClass(
       BuildContext context, ClassSchedule classSchedule) async {
     final response =
@@ -52,9 +66,10 @@ class ClassScheduleService {
     DateFormat timeformat = new DateFormat('hh:mm a');
     String time = timeformat.format(DateTime.now());
     print('formattedTime = $time');
-    DateTime date = dateFormat.parse(DateTime.now().toString());
+    String date = dateFormat.format(DateTime.now());
+    print('date--->$date');
     final response = await classScheduleRepository.findByDateAndClassBooked(
-        'BOOKED', date.toString(), time, context);
+        'BOOKED', date, time, context);
     if (response != null) {
       ClassScheduleList classScheduleList = ClassScheduleList.fromMap(response);
       return classScheduleList.classSchedulelMap;
@@ -74,10 +89,16 @@ class ClassScheduleService {
     return response;
   }
 
+  Future<Object> deleteSchedule(BuildContext context, int id) async {
+    return await classScheduleRepository.deleteSchedule(context, id);
+  }
+
   bool isEnabled(String date, String time) {
     bool isEnabled = true;
     //String date = classScheduleList[index].date;
-    DateTime dbDate = FitnessConstant.df.parse(date);
+    //print('========================');
+    print('DATE===> $date');
+    DateTime dbDate = FitnessConstant.dateFormat.parse(date);
     if (dbDate.isAtSameMomentAs(
         FitnessConstant.df.parse(FitnessConstant.df.format(DateTime.now())))) {
       //String time = classScheduleList[index].time;

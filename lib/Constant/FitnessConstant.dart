@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +11,11 @@ class FitnessConstant {
   static DateFormat dateFormat = new DateFormat('MMM-dd-yyyy');
   static DateFormat df = new DateFormat('yyyy-MM-dd');
   static DateFormat dfz = new DateFormat('hh:mm a');
-  // static const String BASE_PATH = 'http://localhost:9092';
-  static const String BASE_PATH = 'http://198.12.225.231:9092';
+  static const IPHONE_LOCAL_URL = 'http://localhost';
+  static const ANDROID_LOCAL_URL = 'http://10.0.2.2';
+  static String BASE_PATH =
+      Platform.isIOS ? '$IPHONE_LOCAL_URL:9092' : '$ANDROID_LOCAL_URL:9092';
+  // static const String BASE_PATH = 'http://198.12.225.231:9092';
 
   static TextStyle ryeGoogleFont() {
     return GoogleFonts.rye(

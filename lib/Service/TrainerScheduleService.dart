@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TrainerScheduleService {
+  ClassScheduleRepository classScheduleRepository =
+      new ClassScheduleRepository();
   ProfileRepository profileRepository = new ProfileRepository();
   Future<ClassSchedule> addClassSchedule(
       String date,
@@ -32,8 +34,6 @@ class TrainerScheduleService {
     classSchedule.capacity = capacity;
     classSchedule.profile = profile;
 
-    ClassScheduleRepository classScheduleRepository =
-        new ClassScheduleRepository();
     final response =
         await classScheduleRepository.addClassSchedule(classSchedule, context);
     print('RESPONSE====> $response');
@@ -42,8 +42,6 @@ class TrainerScheduleService {
 
   Future<List<ClassSchedule>> findByDateWithProfile(
       BuildContext context) async {
-    ClassScheduleRepository classScheduleRepository =
-        new ClassScheduleRepository();
     DateFormat dateFormat = new DateFormat('MMM-dd-yyyy');
     //DateTime now = DateTime.now();
     String date = dateFormat.format(DateTime.now());
@@ -57,11 +55,15 @@ class TrainerScheduleService {
   }
 
   Future<Object> findTrainersByRole(BuildContext context) async {
-    ClassScheduleRepository classScheduleRepository =
-        new ClassScheduleRepository();
     final response =
         await classScheduleRepository.findAllTrainersByRole(context);
     print('123123123------>>>> $response');
     return response;
+  }
+
+  Future<ClassSchedule> updateClassSchedule(
+      BuildContext context, ClassSchedule classSchedule) async {
+    return await classScheduleRepository.updateClassSchedule(
+        context, classSchedule);
   }
 }
