@@ -111,4 +111,10 @@ class ClassScheduleService {
     }
     return isEnabled;
   }
+
+  Future<Object> checkClassBookedForSpecificUser(
+      BuildContext context, ClassSchedule classSchedule) async {
+    return await classScheduleRepository.checkClassBookedForSpecificUser(
+        context, classSchedule);
+  }
 }

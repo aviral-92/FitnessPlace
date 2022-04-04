@@ -13,9 +13,8 @@ class FitnessConstant {
   static DateFormat dfz = new DateFormat('hh:mm a');
   static const IPHONE_LOCAL_URL = 'http://localhost';
   static const ANDROID_LOCAL_URL = 'http://10.0.2.2';
-  static String BASE_PATH =
-      Platform.isIOS ? '$IPHONE_LOCAL_URL:9092' : '$ANDROID_LOCAL_URL:9092';
-  // static const String BASE_PATH = 'http://198.12.225.231:9092';
+  // static String BASE_PATH = Platform.isIOS ? '$IPHONE_LOCAL_URL:9092' : '$ANDROID_LOCAL_URL:9092';
+  static const String BASE_PATH = 'http://198.12.225.231:9092';
 
   static TextStyle ryeGoogleFont() {
     return GoogleFonts.rye(

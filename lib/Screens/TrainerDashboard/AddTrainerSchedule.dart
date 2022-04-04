@@ -77,9 +77,9 @@ class _AddTrainerScheduleState extends State<AddTrainerSchedule> {
   Widget build(BuildContext context) {
     CustomNavigationBar customNavigationBar = new CustomNavigationBar(
       bgColor: FitnessConstant.appBarColor,
-      txt: 'Add Trainer',
+      txt: 'Add Schedule',
       txtColor: Colors.white,
-      isBackButtonReq: false,
+      isBackButtonReq: classSchedule == null ? false : true,
       isIconRequired: false,
     );
     return Platform.isIOS

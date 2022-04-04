@@ -130,6 +130,18 @@ class ClassScheduleRepository {
     return ClassSchedule.fromMap(response);
   }
 
+  Future<bool> checkClassBookedForSpecificUser(
+      BuildContext context, ClassSchedule classSchedule) async {
+    final response = await _helper.post(
+        '${FitnessConstant.BASE_PATH}/class_schedule/checkClassBookedForSpecificUser',
+        json.encode(classSchedule.toMap()),
+        true,
+        context);
+    if (response == null) return null;
+    print('$response<<<<<<------');
+    return response;
+  }
+
   void logout(BuildContext context) {
     _helper.logout(context);
   }

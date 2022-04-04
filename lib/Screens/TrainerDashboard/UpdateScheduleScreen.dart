@@ -114,18 +114,26 @@ class _UpdateScheduleScreenState extends State<UpdateScheduleScreen> {
                             fun: () {
                               print(
                                   '====>>>>>${classScheduleList[index].date}');
-                              Platform.isAndroid
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
+                              /*Platform.isAndroid
+                                  ?*/
+                              Navigator.push(
+                                context,
+                                Platform.isAndroid
+                                    ? MaterialPageRoute(
                                         builder: (context) =>
                                             AddTrainerSchedule(
                                           classSchedule:
                                               classScheduleList[index],
                                         ),
-                                      ),
-                                    )
-                                  : forIOS(classScheduleList[index]);
+                                      )
+                                    : CupertinoPageRoute(
+                                        builder: (context) =>
+                                            AddTrainerSchedule(
+                                              classSchedule:
+                                                  classScheduleList[index],
+                                            )),
+                              );
+                              // : forIOS(classScheduleList[index]);
                             },
                           ),
                         ),

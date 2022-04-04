@@ -40,9 +40,10 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
               itemCount: classScheduleList.length,
               itemBuilder: (context, index) {
                 //Check, current user booked or not.
-                bool isEnabled = classScheduleService.isEnabled(
+                //print(classScheduleList[index]);
+                /*bool isEnabled = classScheduleService.isEnabled(
                     classScheduleList[index].date,
-                    classScheduleList[index].time);
+                    classScheduleList[index].time);*/
                 return Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -103,26 +104,46 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                           SizedBox(
                               //width: 70,
                               ),
-                          MaterialButton(
-                            disabledColor:
-                                classScheduleList[index].classStatus != null &&
-                                        isEnabled
-                                    ? Colors.deepPurple[900]
-                                    : Colors.grey,
-                            disabledElevation: isEnabled ? 6 : 0,
-                            elevation: 6,
-                            color:
-                                classScheduleList[index].classStatus != null &&
-                                        isEnabled
-                                    ? Colors.deepPurple[900]
-                                    : Colors.white,
-                            //hoverColor: Colors.green,
-                            onPressed: buttonClick(
-                                isEnabled, classScheduleList[index]),
-                            child: getIcon(isEnabled,
-                                classScheduleList[index].classStatus),
-                            shape: CircleBorder(),
-                          ),
+                          FutureBuilder(
+                              future: classScheduleService
+                                  .checkClassBookedForSpecificUser(
+                                      context, classScheduleList[index]),
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                    return Center(
+                                      child: Platform.isAndroid
+                                          ? CircularProgressIndicator()
+                                          : CupertinoActivityIndicator(
+                                              radius: 20,
+                                              animating: true,
+                                            ),
+                                    );
+                                  case ConnectionState.done:
+                                    bool isExist = snapshot.data;
+                                    return MaterialButton(
+                                      disabledColor: isExist
+                                          ? Colors.deepPurple[900]
+                                          : Colors.white,
+                                      disabledElevation: isExist ? 0 : 6,
+                                      elevation: 6,
+                                      color: isExist
+                                          ? Colors.deepPurple[900]
+                                          : Colors.white,
+                                      onPressed: buttonClick(
+                                          isExist, classScheduleList[index]),
+                                      child: getIcon(isExist),
+                                      shape: CircleBorder(),
+                                    );
+                                  default:
+                                    if (snapshot.hasError) {
+                                      return Container(
+                                        child: Text('Error: ${snapshot.error}'),
+                                      );
+                                    } else
+                                      return Container();
+                                }
+                              }),
                         ],
                       ),
                     ],
@@ -134,29 +155,25 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
     );
   }
 
-  Widget getIcon(bool isEnable, String classStatus) {
-    if (isEnable && classStatus != null)
+  Widget getIcon(bool isEnable) {
+    if (isEnable)
       return Icon(Icons.check, color: Colors.white);
-    else if (isEnable)
-      return Icon(Icons.add, color: Colors.deepPurple[900]);
-    else if (classStatus != null)
-      return Icon(Icons.done_outline, color: Colors.white);
     else
-      return Icon(Icons.alarm, color: Colors.deepPurple[900]);
+      return Icon(Icons.add, color: Colors.deepPurple[900]);
   }
 
   Function buttonClick(bool isEnabled, ClassSchedule classSchedule) {
     ClassScheduleService classScheduleService = new ClassScheduleService();
-    if (isEnabled && classSchedule.classStatus == null)
+    if (!isEnabled)
       return () {
         /*BOOK CLASS*/
         classScheduleService.bookClass(context, classSchedule).then((_) {
           setState(() {
-            initState();
+            //initState();
           });
         });
       };
-    else if (isEnabled && classSchedule.classStatus != null) {
+    else {
       return () {
         /*CANCEL CLASS*/
         //print('hello->$classSchedule');
@@ -167,7 +184,7 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
         });
       };
     }
-    return null;
+    //return null;
   }
 
   CustomNavigationBar _customNavigationBar = new CustomNavigationBar(
