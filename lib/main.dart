@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.light,
             ),
             darkTheme: ThemeData(
-              brightness: Brightness.dark,
+              brightness: Brightness.light,
             ),
             home: Scaffold(
               resizeToAvoidBottomInset: false,
