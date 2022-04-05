@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
     return Platform.isIOS
         ? CupertinoApp(
             debugShowCheckedModeBanner: false,
+            theme: CupertinoThemeData(
+              brightness: Brightness.light,
+            ),
             home: CupertinoPageScaffold(
               resizeToAvoidBottomInset: false,
               child: LandingPage(),
@@ -28,6 +31,12 @@ class MyApp extends StatelessWidget {
           )
         : MaterialApp(
             debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              brightness: Brightness.light,
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+            ),
             home: Scaffold(
               resizeToAvoidBottomInset: false,
               body: LandingPage(),
