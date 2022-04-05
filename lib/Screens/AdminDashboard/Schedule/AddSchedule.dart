@@ -29,7 +29,7 @@ class _AddScheduleState extends State<AddSchedule> {
   TextEditingController _controllerType = new TextEditingController();
   TextEditingController _controllerCapacity = new TextEditingController();
   TextEditingController _controllerTrainer = new TextEditingController();
-  TextEditingController _controllerSlotOccupied = new TextEditingController();
+  //TextEditingController _controllerSlotOccupied = new TextEditingController();
 
   bool progressBarEnable = false;
   List<User> users;

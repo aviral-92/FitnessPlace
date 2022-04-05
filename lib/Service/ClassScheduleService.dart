@@ -1,7 +1,7 @@
 import 'package:FitnessPlace/Constant/ConstantWidgets.dart';
 import 'package:FitnessPlace/Constant/FitnessConstant.dart';
 import 'package:FitnessPlace/Modal/ClassSchedule.dart';
-import 'package:FitnessPlace/Modal/User.dart';
+//import 'package:FitnessPlace/Modal/User.dart';
 import 'package:FitnessPlace/Provider/ClassScheduleList.dart';
 import 'package:FitnessPlace/Repository/ClassScheduleRepository.dart';
 import 'package:flutter/material.dart';
