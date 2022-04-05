@@ -5,7 +5,7 @@ import 'package:FitnessPlace/Constant/FitnessConstant.dart';
 import 'package:FitnessPlace/CustomWidget/CustomFlatButton.dart';
 import 'package:FitnessPlace/CustomWidget/CustomNavigationBar.dart';
 import 'package:FitnessPlace/CustomWidget/CustomTextField.dart';
-import 'package:FitnessPlace/Modal/ClassSchedule.dart';
+//import 'package:FitnessPlace/Modal/ClassSchedule.dart';
 import 'package:FitnessPlace/Modal/User.dart';
 import 'package:FitnessPlace/Service/TrainerScheduleService.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +33,7 @@ class _AddScheduleState extends State<AddSchedule> {
 
   bool progressBarEnable = false;
   List<User> users;
+  bool isAndroid;
 
   final List<Text> pickerItems = [
     Text('15 Minutes'),
@@ -43,10 +44,10 @@ class _AddScheduleState extends State<AddSchedule> {
 
   @override
   void initState() {
+    isAndroid = Platform.isAndroid ? true : false;
     setUsersList();
     print('*****************************');
     //print('------$users---------');
-
     currDate = FitnessConstant.dateFormat.format(currentDate);
     super.initState();
   }
@@ -100,7 +101,7 @@ class _AddScheduleState extends State<AddSchedule> {
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
+    return !isAndroid
         ? CupertinoPageScaffold(
             resizeToAvoidBottomInset: false,
             navigationBar: _customNavigationBar.getCupertinoNavigationBar(),
@@ -137,7 +138,7 @@ class _AddScheduleState extends State<AddSchedule> {
             Row(
               children: [
                 Container(
-                  width: Platform.isAndroid
+                  width: isAndroid
                       ? MediaQuery.of(context).size.width - 70
                       : MediaQuery.of(context).size.width - 30,
                   padding: const EdgeInsets.only(left: 20),
@@ -159,7 +160,7 @@ class _AddScheduleState extends State<AddSchedule> {
                     style: TextStyle(fontSize: 22),
                   ),*/
                 ),
-                Platform.isIOS
+                !isAndroid
                     ? SizedBox()
                     : IconButton(
                         icon: Icon(
@@ -176,7 +177,7 @@ class _AddScheduleState extends State<AddSchedule> {
             Row(
               children: [
                 Container(
-                  width: Platform.isAndroid
+                  width: isAndroid
                       ? MediaQuery.of(context).size.width - 70
                       : MediaQuery.of(context).size.width - 30,
                   padding: const EdgeInsets.only(left: 20),
@@ -198,7 +199,7 @@ class _AddScheduleState extends State<AddSchedule> {
                     style: TextStyle(fontSize: 22),
                   ),*/
                 ),
-                Platform.isIOS
+                !isAndroid
                     ? SizedBox()
                     : IconButton(
                         icon: Icon(
@@ -226,7 +227,7 @@ class _AddScheduleState extends State<AddSchedule> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Container(
-                    width: Platform.isAndroid
+                    width: isAndroid
                         ? MediaQuery.of(context).size.width - 90
                         : MediaQuery.of(context).size.width - 50,
                     child: CustomTextField(
@@ -248,7 +249,7 @@ class _AddScheduleState extends State<AddSchedule> {
                     ),*/
                   ),
                 ),
-                Platform.isAndroid
+                isAndroid
                     ? Padding(
                         padding: const EdgeInsets.only(top: 12),
                         child: DropdownButton<String>(
@@ -309,58 +310,49 @@ class _AddScheduleState extends State<AddSchedule> {
               ),
             ),
             SizedBox(height: 20),
-            users != null
-                ? Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Container(
-                          width: Platform.isIOS
-                              ? MediaQuery.of(context).size.width - 50
-                              : MediaQuery.of(context).size.width - 200,
-                          child: CustomTextField(
-                            controller: _controllerTrainer,
-                            hintTxt: 'Enter Trainer',
-                            icon: Icon(
-                              Icons.person,
-                              color: FitnessConstant.appBarColor,
-                            ),
-                            isReadOnly: true,
-                            obscure: false,
-                            mode: OverlayVisibilityMode.editing,
-                            fun: () => _trainerForIOS(_controllerTrainer),
-                          ),
-                          /*TextField(
-                            decoration:
-                                InputDecoration(hintText: 'Enter Trainer'),
-                            controller: _controllerTrainer,
-                            style: TextStyle(fontSize: 22),
-                          ),*/
+            users != null && !isAndroid
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Container(
+                      width: 325,
+                      child: CustomTextField(
+                        controller: _controllerTrainer,
+                        hintTxt: 'Enter Trainer',
+                        icon: Icon(
+                          Icons.person,
+                          color: FitnessConstant.appBarColor,
                         ),
+                        isReadOnly: true,
+                        obscure: false,
+                        mode: OverlayVisibilityMode.notEditing,
+                        fun: () => _trainerForIOS(_controllerTrainer),
                       ),
-                      Platform.isAndroid
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child: DropdownButton<String>(
-                                items: users.map((User user) {
-                                  return DropdownMenuItem<String>(
-                                    value: user.username,
-                                    child: Text(user.username),
-                                  );
-                                }).toList(),
-                                onChanged: (_) {
-                                  print(_);
-                                  setState(() {
-                                    _controllerTrainer.text = _;
-                                  });
-                                },
-                              ),
-                            )
-                          : SizedBox(),
-                    ],
+                    ),
                   )
-                : SizedBox(),
-            Platform.isIOS
+                : users != null && isAndroid
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: GestureDetector(
+                          onTap: () => _trainerForIOS(_controllerTrainer),
+                          child: Container(
+                            width: 325,
+                            child: CustomTextField(
+                              controller: _controllerTrainer,
+                              hintTxt: 'Enter Trainer',
+                              icon: Icon(
+                                Icons.person,
+                                color: FitnessConstant.appBarColor,
+                              ),
+                              isReadOnly: true,
+                              obscure: false,
+                              mode: OverlayVisibilityMode.notEditing,
+                              fun: () => _trainerForIOS(_controllerTrainer),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+            !isAndroid
                 ? Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
@@ -410,7 +402,7 @@ class _AddScheduleState extends State<AddSchedule> {
     classScheduleResponse.then((value) {
       print('classSchedule at the end --->>> $value');
       if (value != null) {
-        if (Platform.isIOS) {
+        if (!isAndroid) {
           print(
               'IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS IOS');
           ConstantWidgets.cupertinoOkAlertDialog(
@@ -420,7 +412,7 @@ class _AddScheduleState extends State<AddSchedule> {
               context, 'Successfully added your schedule', 'Schedule added!');
         } //Navigator.pop(context);
       } else {
-        if (Platform.isIOS) {
+        if (!isAndroid) {
           ConstantWidgets.cupertinoOkAlertDialog(
               context, 'Network issue!', 'unable to add, check later');
         } else {
