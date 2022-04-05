@@ -310,6 +310,7 @@ class _AddScheduleState extends State<AddSchedule> {
               ),
             ),
             SizedBox(height: 20),
+            /******* FOR IOS *********/
             users != null && !isAndroid
                 ? Padding(
                     padding: const EdgeInsets.only(left: 20),
@@ -329,6 +330,7 @@ class _AddScheduleState extends State<AddSchedule> {
                       ),
                     ),
                   )
+                /******* FOR ANDROID *********/
                 : users != null && isAndroid
                     ? Padding(
                         padding: const EdgeInsets.only(left: 20),

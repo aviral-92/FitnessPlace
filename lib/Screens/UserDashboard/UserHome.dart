@@ -32,6 +32,7 @@ class _UserHomeState extends State<UserHome> {
     double height = MediaQuery.of(context).size.height / 100;
     return Platform.isIOS
         ? CupertinoTabScaffold(
+            resizeToAvoidBottomInset: false,
             tabBar: CupertinoTabBar(
               items: [
                 BottomNavigationBarItem(
@@ -74,6 +75,7 @@ class _UserHomeState extends State<UserHome> {
               }
             })
         : Scaffold(
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

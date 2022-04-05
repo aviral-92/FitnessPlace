@@ -32,7 +32,8 @@ class _TrainersHomeState extends State<TrainersHome> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            child: futureBuilderData())
+            child: futureBuilderData(),
+          )
         : futureBuilderData();
   }
 
